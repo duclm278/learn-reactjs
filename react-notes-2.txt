@@ -1,0 +1,12 @@
+ES6+
+React-DOM
+React Component
+State in React
+Props in React
+List and Keys in React
+Life Cycle Methods in React
+React Hooks
+Context in React
+State Management in React (Redux)
+Routing
+Working with Restful API

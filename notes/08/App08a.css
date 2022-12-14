@@ -1,0 +1,11 @@
+.container {
+  background-color: bisque;
+  display: flex;
+  height: 100px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.item {
+  margin-right: 30px;
+}

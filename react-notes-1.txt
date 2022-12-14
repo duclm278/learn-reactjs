@@ -1,0 +1,14 @@
+Install node
+
+Install library:
+- npm install <lib_name>
+
+Create app:
+- npx create-react-app <app_name>
+
+Run app:
+- cd <app_name>
+- npm start
+
+Install table:
+- npm i "@material-ui/core"
