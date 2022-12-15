@@ -1,3 +1,4 @@
+import { memo } from "react";
 import {
   FLOOR_IMG,
   GOAL_IMG,
@@ -44,4 +45,11 @@ const Cell = ({ value, style }) => {
   );
 };
 
-export default Cell;
+// Skip re-rendering if props are unchanged
+export default memo(
+  Cell,
+  // Custom comparison function to check style object
+  (oldProps, newProps) =>
+    oldProps.value === newProps.value &&
+    JSON.stringify(oldProps.style) === JSON.stringify(newProps.style)
+);
