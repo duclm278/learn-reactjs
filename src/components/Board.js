@@ -9,7 +9,9 @@ const Board = ({ cells, containerRef }) => {
   const [cellCss, setCellCss] = useState({});
 
   useEffect(() => {
+    console.log(`Listen: ${numRows} x ${numCols}`);
     const handleResize = () => {
+      console.log("Handle:", containerRef.current.offsetWidth);
       const boardMaxW = MAX_WIDTH_RATIO * containerRef.current.offsetWidth;
       const boardMaxH = MAX_HEIGHT_RATIO * window.innerHeight;
       setGridCss({
@@ -33,6 +35,7 @@ const Board = ({ cells, containerRef }) => {
     };
   }, [numCols, numRows, containerRef]);
 
+  console.log("Board render");
   return (
     <div>
       <div className="board" style={gridCss}>

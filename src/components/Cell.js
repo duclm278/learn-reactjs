@@ -36,6 +36,7 @@ const Cell = ({ value, style }) => {
       break;
   }
 
+  console.log("Cell render");
   return (
     <div className="cell" style={cellCss}>
       <img src={imgSrc} alt={imgSrc} loading="lazy" />

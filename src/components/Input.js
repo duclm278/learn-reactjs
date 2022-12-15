@@ -68,6 +68,7 @@ const Input = ({ cells, setCells }) => {
     textRef.current.focus();
   };
 
+  console.log("Input render");
   return (
     <div className="input">
       <textarea cols={20} placeholder="Move Right" autoFocus ref={textRef} />
