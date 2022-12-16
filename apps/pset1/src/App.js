@@ -59,7 +59,7 @@ export default function App() {
         sx={{ "& > :not(style)": { my: 1 } }}
         onSubmit={handleFormAddSubmit}
       >
-        <Stack direction="row" spacing={3}>
+        <Stack direction="row" spacing={2}>
           <TextField
             required
             id="outlined-required"
@@ -75,7 +75,7 @@ export default function App() {
             onChange={handleFormAddChange}
           />
         </Stack>
-        <Stack direction="row" spacing={3}>
+        <Stack direction="row" spacing={2}>
           <TextField
             required
             id="outlined-required"
