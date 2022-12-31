@@ -14,7 +14,7 @@ export default function App() {
       <Router>
         <ul>
           <li>
-            <Link to="/list">List of customers</Link>{" "}
+            <Link to="/list">List of customers</Link>
           </li>
           <li>
             <Link to="/add">Add a new customer</Link>

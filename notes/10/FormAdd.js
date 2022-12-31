@@ -14,6 +14,7 @@ export default function FormAdd(props) {
     setMaxId(id);
     return id;
   }
+
   function handleAdd() {
     let newCustomers = [
       ...customers,

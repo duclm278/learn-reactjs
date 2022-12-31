@@ -4,7 +4,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const TableCustomer = (customers, onDelete, onEdit) => {
@@ -32,6 +32,7 @@ export default function List(props) {
   function handleEdit(index) {
     navigate("/edit/" + index);
   }
+
   function handleDelete(index) {
     let id = customers[index].id;
     let newCustomers = customers.filter((customer) => customer.id !== id);
