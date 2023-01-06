@@ -1,0 +1,26 @@
+body,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  min-height: 50px;
+  background-color: blue;
+}
+
+.content {
+  display: flex;
+}
+
+.menu {
+  background-color: rebeccapurple;
+  min-width: 200px;
+  margin-left: -200px;
+  transition: margin 500ms;
+}
+
+.menu.active {
+  margin-left: 0;
+  transition: margin 500ms;
+}
