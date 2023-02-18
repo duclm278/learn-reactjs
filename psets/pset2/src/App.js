@@ -7,13 +7,15 @@ export default function App() {
   const [numImgs] = useState(48);
   const [imgList] = useState(data.slice(0, numImgs));
   const customGrid = {
+    display: "grid",
+    gap: "0.5rem",
     gridTemplateColumns: `repeat(${numCols}, 1fr)`,
   };
 
   return (
     <div className="main-container">
       <h1>Photo Gallery</h1>
-      <div className="grid-container" style={customGrid}>
+      <div style={customGrid}>
         {imgList.map((image) => (
           <img
             key={image.name}

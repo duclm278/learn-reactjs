@@ -16,7 +16,7 @@ import data from "./data.json";
 
 export default function App() {
   const [students, setStudents] = useState(data);
-  const [formAddData, setFormAddData] = useState({
+  const [currentStudent, setCurrentStudent] = useState({
     id: -1,
     name: "",
     birthday: "",
@@ -27,18 +27,18 @@ export default function App() {
     event.preventDefault();
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
-    const newFormAddData = { ...formAddData };
+    const newFormAddData = { ...currentStudent };
     newFormAddData[fieldName] = fieldValue;
-    setFormAddData(newFormAddData);
+    setCurrentStudent(newFormAddData);
   };
 
   const handleFormAddSubmit = (event) => {
     event.preventDefault();
     const newStudent = {
-      id: parseInt(formAddData.id),
-      name: formAddData.name,
-      birthday: formAddData.birthday,
-      email: formAddData.email,
+      id: parseInt(currentStudent.id),
+      name: currentStudent.name,
+      birthday: currentStudent.birthday,
+      email: currentStudent.email,
     };
     const newStudents = [...students, newStudent];
     setStudents(newStudents);
@@ -62,14 +62,12 @@ export default function App() {
         <Stack direction="row" spacing={2}>
           <TextField
             required
-            id="outlined-required"
             label="ID"
             name="id"
             onChange={handleFormAddChange}
           />
           <TextField
             required
-            id="outlined-required"
             label="Name"
             name="name"
             onChange={handleFormAddChange}
@@ -78,14 +76,12 @@ export default function App() {
         <Stack direction="row" spacing={2}>
           <TextField
             required
-            id="outlined-required"
             label="Birthday"
             name="birthday"
             onChange={handleFormAddChange}
           />
           <TextField
             required
-            id="outlined-required"
             label="Email"
             name="email"
             onChange={handleFormAddChange}

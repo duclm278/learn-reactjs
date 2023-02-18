@@ -9,11 +9,6 @@ img {
   animation: transitionIn 0.75s;
 }
 
-.grid-container {
-  display: grid;
-  gap: 0.5rem;
-}
-
 @keyframes transitionIn {
   from {
     opacity: 0;
