@@ -4,8 +4,7 @@ import data from "./data.json";
 
 export default function App() {
   const [numCols] = useState(4);
-  const [numImgs] = useState(48);
-  const [imgList] = useState(data.slice(0, numImgs));
+  const [imgList] = useState(data);
   const customGrid = {
     display: "grid",
     gap: "0.5rem",

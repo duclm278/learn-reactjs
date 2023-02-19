@@ -10,6 +10,10 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
+import { DesktopDatePicker } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import moment from "moment";
 import { useState } from "react";
 import "./App.css";
 import data from "./data.json";
@@ -17,22 +21,19 @@ import data from "./data.json";
 export default function App() {
   const [students, setStudents] = useState(data);
   const [currentStudent, setCurrentStudent] = useState({
-    id: -1,
+    id: "",
     name: "",
-    birthday: "",
+    birthday: new moment().toISOString(),
     email: "",
   });
 
-  const handleFormAddChange = (event) => {
-    event.preventDefault();
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-    const newFormAddData = { ...currentStudent };
-    newFormAddData[fieldName] = fieldValue;
-    setCurrentStudent(newFormAddData);
+  const handleFormChange = (fieldName, fieldValue) => {
+    const newStudent = { ...currentStudent };
+    newStudent[fieldName] = fieldValue;
+    setCurrentStudent(newStudent);
   };
 
-  const handleFormAddSubmit = (event) => {
+  const handleFormSubmit = (event) => {
     event.preventDefault();
     const newStudent = {
       id: parseInt(currentStudent.id),
@@ -42,7 +43,12 @@ export default function App() {
     };
     const newStudents = [...students, newStudent];
     setStudents(newStudents);
-    event.target.reset();
+    setCurrentStudent({
+      id: "",
+      name: "",
+      birthday: new moment().toISOString(),
+      email: "",
+    });
   };
 
   const handleDeleteClick = (studentId) => {
@@ -53,80 +59,94 @@ export default function App() {
   };
 
   return (
-    <Stack sx={{ p: 4 }} spacing={2}>
-      <Box
-        component="form"
-        sx={{ "& > :not(style)": { my: 1 } }}
-        onSubmit={handleFormAddSubmit}
-      >
-        <Stack direction="row" spacing={2}>
-          <TextField
-            required
-            label="ID"
-            name="id"
-            onChange={handleFormAddChange}
-          />
-          <TextField
-            required
-            label="Name"
-            name="name"
-            onChange={handleFormAddChange}
-          />
-        </Stack>
-        <Stack direction="row" spacing={2}>
-          <TextField
-            required
-            label="Birthday"
-            name="birthday"
-            onChange={handleFormAddChange}
-          />
-          <TextField
-            required
-            label="Email"
-            name="email"
-            onChange={handleFormAddChange}
-          />
-        </Stack>
-        <Button variant="contained" size="medium" type="submit">
-          Add
-        </Button>
-      </Box>
+    <LocalizationProvider dateAdapter={AdapterMoment}>
+      <Stack sx={{ p: 4 }} spacing={2}>
+        <Box
+          component="form"
+          sx={{ "& > :not(style)": { my: 1 } }}
+          onSubmit={handleFormSubmit}
+        >
+          <Stack direction="row" spacing={2}>
+            <TextField
+              required
+              name="id"
+              label="ID"
+              value={currentStudent.id}
+              onChange={(e) => handleFormChange("id", e.target.value)}
+            />
+            <TextField
+              required
+              name="name"
+              label="Name"
+              value={currentStudent.name}
+              onChange={(e) => handleFormChange("name", e.target.value)}
+            />
+          </Stack>
+          <Stack direction="row" spacing={2}>
+            <DesktopDatePicker
+              required
+              label="Birthday"
+              name="birthday"
+              inputFormat="YYYY/MM/DD"
+              value={moment(currentStudent.birthday)}
+              onChange={(v) => {
+                // Reset local time to 00:00:00.000
+                v = v?.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+                handleFormChange("birthday", v?.toISOString());
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+            <TextField
+              required
+              label="Email"
+              name="email"
+              value={currentStudent.email}
+              onChange={(e) => handleFormChange("email", e.target.value)}
+            />
+          </Stack>
+          <Button variant="contained" size="medium" type="submit">
+            Add
+          </Button>
+        </Box>
 
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>No</TableCell>
-              <TableCell>ID</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Birthday</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {students.map((student, index) => (
-              <TableRow key={student.id}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{student.id}</TableCell>
-                <TableCell>{student.name}</TableCell>
-                <TableCell>{student.birthday}</TableCell>
-                <TableCell>{student.email}</TableCell>
-                <TableCell>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    type="button"
-                    onClick={() => handleDeleteClick(student.id)}
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>No</TableCell>
+                <TableCell>ID</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Birthday</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell></TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Stack>
+            </TableHead>
+            <TableBody>
+              {students.map((student, index) => (
+                <TableRow key={student.id}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{student.id}</TableCell>
+                  <TableCell>{student.name}</TableCell>
+                  <TableCell>
+                    {moment(student.birthday).local().format("YYYY-MM-DD")}
+                  </TableCell>
+                  <TableCell>{student.email}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      type="button"
+                      onClick={() => handleDeleteClick(student.id)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Stack>
+    </LocalizationProvider>
   );
 }

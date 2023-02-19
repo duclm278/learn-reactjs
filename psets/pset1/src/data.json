@@ -2,19 +2,19 @@
   {
     "id": 20200123,
     "name": "A",
-    "birthday": "02/04/2002",
+    "birthday": "2002-01-02T00:00:00.000Z",
     "email": "a@a.com"
   },
   {
     "id": 20203456,
     "name": "B",
-    "birthday": "04/06/2002",
+    "birthday": "2002-03-04T00:00:00.000Z",
     "email": "b@b.com"
   },
   {
     "id": 20206789,
     "name": "C",
-    "birthday": "06/08/2002",
+    "birthday": "2002-04-05T00:00:00.000Z",
     "email": "c@c.com"
   }
 ]
