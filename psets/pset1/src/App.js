@@ -14,12 +14,12 @@ import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-import data from "./data.json";
+import studentApi from "./api/studentApi";
 
 export default function App() {
-  const [students, setStudents] = useState(data);
+  const [students, setStudents] = useState([]);
   const [currentStudent, setCurrentStudent] = useState({
     id: "",
     name: "",
@@ -27,35 +27,83 @@ export default function App() {
     email: "",
   });
 
+  const fetch = async () => {
+    console.log("Fetching students");
+    try {
+      const response = await studentApi.getStudents();
+      if (response?.status === 200) {
+        setStudents(response?.data);
+      }
+    } catch (err) {
+      alert("Failed to fetch student list");
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetch();
+  }, []);
+
   const handleFormChange = (fieldName, fieldValue) => {
     const newStudent = { ...currentStudent };
     newStudent[fieldName] = fieldValue;
     setCurrentStudent(newStudent);
   };
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
     const newStudent = {
       id: parseInt(currentStudent.id),
       name: currentStudent.name,
       birthday: currentStudent.birthday,
       email: currentStudent.email,
     };
-    const newStudents = [...students, newStudent];
-    setStudents(newStudents);
-    setCurrentStudent({
-      id: "",
-      name: "",
-      birthday: new moment().toISOString(),
-      email: "",
-    });
+
+    const submit = async () => {
+      console.log("Creating student");
+      try {
+        const response = await studentApi.createStudent(newStudent);
+        if (response?.status === 201) {
+          alert("Created student successfully");
+          const newStudents = [...students, newStudent];
+          setStudents(newStudents);
+          setCurrentStudent({
+            id: "",
+            name: "",
+            birthday: new moment().toISOString(),
+            email: "",
+          });
+        }
+      } catch (err) {
+        alert("Failed to create student");
+        console.log(err);
+      }
+    };
+
+    submit();
   };
 
   const handleDeleteClick = (studentId) => {
-    const newStudents = [...students];
-    const index = students.findIndex((student) => student.id === studentId);
-    newStudents.splice(index, 1);
-    setStudents(newStudents);
+    const fetch = async () => {
+      console.log("Deleting student");
+      try {
+        const response = await studentApi.deleteStudentById(studentId);
+        if (response?.status === 200) {
+          alert("Deleted student successfully");
+          const newStudents = [...students];
+          const index = students.findIndex(
+            (student) => student.id === studentId
+          );
+          newStudents.splice(index, 1);
+          setStudents(newStudents);
+        }
+      } catch (err) {
+        alert("Failed to delete student");
+        console.log(err);
+      }
+    };
+
+    fetch();
   };
 
   return (
